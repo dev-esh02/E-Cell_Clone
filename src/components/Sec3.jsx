@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 const StyledSec3 = styled.section`
   background-size: 100% 100%;
@@ -48,7 +48,7 @@ const StyledSec3 = styled.section`
       padding: 1rem 20vmin;
       padding-bottom: 10vmax !important;
       grid-template-columns: auto auto;
-      
+      font-family: Montserrat;
     }
 
    input[type="text"], select{
@@ -85,6 +85,28 @@ const StyledSec3 = styled.section`
    }
 `
 const Sec3 = () => {
+  const [data, setData] = useState({});
+  const handleChange = (e)=>{
+       let name  = e.target.name;
+       let value = e.target.value;
+       setData({...data, [name]:value});
+  }
+
+  const handleSubmit = ()=>{
+    fetch('https://ecellbackend.onrender.com/register',{
+      headers:{
+        'Content-Type':'application/json'
+      },
+      method:"POST",
+      body:JSON.stringify(data)
+    }).then((res)=>{
+      return res.json()
+    }).then((res)=>{
+      alert(res.message)
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
   return (
      <StyledSec3 id='section3'>
       <img src="/Images/formbg.png" alt="" />
@@ -92,59 +114,59 @@ const Sec3 = () => {
           <p>
             REGISTRATION FORM
           </p>
-       <form action="http://localhost:8000/register" method='POST'>
+       <form onSubmit={(e)=>{e.preventDefault()}} method='POST'>
         <label htmlFor="name">
           <p className='star'>Name of Your Startup</p>
-          <input required type="text"  name='name' />
+          <input required type="text" onChange={handleChange}  name='name' />
         </label>
         <label htmlFor="name">
           <p className='star'>Founder's Name</p>
-          <input required type="text" name='founder' />
+          <input required type="text" onChange={handleChange} name='founder' />
         </label>
         <label htmlFor="name">
           <p className='star'>Email Address</p>
-          <input required type="text" name='email'  />
+          <input required type="text" onChange={handleChange} name='email'  />
         </label>
         <label htmlFor="name">
           <p className='star'>Contact Number</p>
-          <input  required type="text" name='mobile' />
+          <input  required type="text" onChange={handleChange} name='mobile' />
         </label>
         <label htmlFor="name">
           <p className='star'>Which city is your startup based in?</p>
-          <input required type="text" name='city' />
+          <input required type="text" onChange={handleChange} name='city' />
         </label>
         <label htmlFor="name">
           <p className='star'>Mention your Startup website.(Mention NA, if not applicable)</p>
-          <input required type="text" name='website' />
+          <input required type="text" onChange={handleChange} name='website' />
         </label>
         <label htmlFor="name">
           <p className='star'>What is your Target Customer and Market Size?</p>
-          <input required type="text" name='size' />
+          <input required type="text" onChange={handleChange} name='size' />
         </label>
         <label htmlFor="name">
           <p className='star'>What is your Primary Revenue Stream?</p>
-          <input required type="text" name='revenue_stream' />
+          <input required type="text" onChange={handleChange} name='revenue_stream' />
         </label>
 
         <label htmlFor="name">
           <p className='star'>Mention any two close competitors of your Startup</p>
-          <input required type="text" name='competitors' />
+          <input required type="text" onChange={handleChange} name='competitors' />
         </label>
 
         <label htmlFor="name">
           <p className='star'>Can you provide a brief description about your Startup, Productand the need/gap being addressed</p>
-          <input required type="text" name='description' />
+          <input required type="text" onChange={handleChange} name='description' />
         </label>
 
              <label htmlFor="name">
           <p className='star'>What are some challenges you are facing in your Startup?</p>
-          <input required type="text" name='challenges' />
+          <input required type="text" onChange={handleChange} name='challenges' />
         </label>
 
 
              <label htmlFor="name">
           <p className='star'>At what stage are you in your Startup Journey?</p>
-           <select required name="stage" id="">
+           <select onChange={handleChange} required name="stage" id="">
           <option value="Ideation">Ideation</option>
           <option value="MVP Ready (POC / Evaluation underway - not paid)">MVP Ready (POC / Evaluation underway - not paid)</option>
           <option value="">Customer Pilots Underways (Paid POC)</option>
@@ -155,14 +177,14 @@ const Sec3 = () => {
         </label>
              <label htmlFor="name">
           <p className='star'>Which event do you wnat to register for?</p>
-           <select required name="event" id="">
+           <select onChange={handleChange} required name="event" id="">
           <option value="">Ideascape</option>
           <option value="">Get Funded</option>
         </select>
         </label>
              <label htmlFor="name">
           <p className='star'>What domainis your Startup in?</p>
-           <select required name="domain" id="">
+           <select onChange={handleChange} required name="domain" id="">
           <option value="">Healthcare/Pharma/Lifesciences</option>
           <option value="">Finance/Insurance/Fintech</option>
           <option value="">Manufacturing/Industrial</option>
@@ -182,9 +204,9 @@ const Sec3 = () => {
 
         <label htmlFor="name">
           <p className=''>If other category, mention here in brief</p>
-          <input type="text" id='name' name='other' />
+          <input type="text" onChange={handleChange} id='name' name='other' />
         </label>
-     <button className='registerButton' style={{position:'absolute', }} type="submit">Register</button>
+     <button onClick={handleSubmit} className='registerButton' style={{position:'absolute', }} type="submit">Register</button>
       </form>
        </section>
      </StyledSec3>
